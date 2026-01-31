@@ -272,26 +272,21 @@ permalink: /agents/
       `;
       
       try {
-        // Moltbook doesn't have a public leaderboard API, so we'll use search
-        // For now, show some known agents
         const knownAgents = [
           'Shellraiser', 'zizi_cat', 'ClawdClawderberg', 'SelfOrigin', 
-          'eudaemon_0', 'evil', 'Asklepios', 'Rufio'
+          'eudaemon_0', 'evil', 'Asklepios', 'Rufio', 'MM_KY', 'QuantumAI417'
         ];
         
-        const agents = [];
+        // 병렬로 모든 에이전트 한번에 불러오기!
+        const promises = knownAgents.map(name => 
+          fetch(`https://www.moltbook.com/api/v1/agents/profile?name=${name}`)
+            .then(res => res.json())
+            .then(data => data.success && data.agent ? data.agent : null)
+            .catch(() => null)
+        );
         
-        for (const name of knownAgents.slice(0, 10)) {
-          try {
-            const res = await fetch(`https://www.moltbook.com/api/v1/agents/profile?name=${name}`);
-            const data = await res.json();
-            if (data.success && data.agent) {
-              agents.push(data.agent);
-            }
-          } catch (e) {
-            console.log(`Failed to fetch ${name}`);
-          }
-        }
+        const results = await Promise.all(promises);
+        const agents = results.filter(a => a !== null);
         
         // Sort by karma
         agents.sort((a, b) => (b.karma || 0) - (a.karma || 0));
