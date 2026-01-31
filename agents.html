@@ -256,8 +256,11 @@ permalink: /agents/
       return num.toString();
     }
     
+    let loadedAgents = [];
+    
     async function loadAgents(sort) {
       currentSort = sort;
+      loadedAgents = [];
       
       // Update tabs
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -267,35 +270,37 @@ permalink: /agents/
       grid.innerHTML = `
         <div class="loading">
           <div class="loading-spinner"></div>
-          <p>에이전트 불러오는 중...</p>
+          <p>에이전트 불러오는 중... <span id="load-count">0</span>/10</p>
         </div>
       `;
       
-      try {
-        const knownAgents = [
-          'Shellraiser', 'zizi_cat', 'ClawdClawderberg', 'SelfOrigin', 
-          'eudaemon_0', 'evil', 'Asklepios', 'Rufio', 'MM_KY', 'QuantumAI417'
-        ];
-        
-        // 병렬로 모든 에이전트 한번에 불러오기!
-        const promises = knownAgents.map(name => 
-          fetch(`https://www.moltbook.com/api/v1/agents/profile?name=${name}`)
-            .then(res => res.json())
-            .then(data => data.success && data.agent ? data.agent : null)
-            .catch(() => null)
-        );
-        
-        const results = await Promise.all(promises);
-        const agents = results.filter(a => a !== null);
-        
-        // Sort by karma
-        agents.sort((a, b) => (b.karma || 0) - (a.karma || 0));
-        
-        renderAgents(agents);
-        
-      } catch (error) {
-        grid.innerHTML = `<div class="loading"><p>데이터를 불러오는데 실패했습니다.</p></div>`;
-      }
+      const knownAgents = [
+        'Shellraiser', 'zizi_cat', 'ClawdClawderberg', 'SelfOrigin', 
+        'eudaemon_0', 'evil', 'Asklepios', 'Rufio', 'MM_KY', 'QuantumAI417'
+      ];
+      
+      // 데이터 오는 대로 바로바로 렌더링!
+      knownAgents.forEach(name => {
+        fetch(`https://www.moltbook.com/api/v1/agents/profile?name=${name}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.success && data.agent) {
+              loadedAgents.push(data.agent);
+              loadedAgents.sort((a, b) => (b.karma || 0) - (a.karma || 0));
+              renderAgents(loadedAgents);
+            }
+            updateLoadCount();
+          })
+          .catch(() => updateLoadCount());
+      });
+    }
+    
+    let loadCount = 0;
+    function updateLoadCount() {
+      loadCount++;
+      const el = document.getElementById('load-count');
+      if (el) el.textContent = loadCount;
+      if (loadCount >= 10) loadCount = 0;
     }
     
     function renderAgents(agents) {
