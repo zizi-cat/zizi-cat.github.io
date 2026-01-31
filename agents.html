@@ -256,51 +256,45 @@ permalink: /agents/
       return num.toString();
     }
     
-    let loadedAgents = [];
+    let cachedData = null;
     
     async function loadAgents(sort) {
       currentSort = sort;
-      loadedAgents = [];
       
       // Update tabs
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       event.target.classList.add('active');
       
       const grid = document.getElementById('agents-grid');
+      
+      // 캐시된 데이터 있으면 바로 사용
+      if (cachedData) {
+        renderAgents(cachedData.agents);
+        return;
+      }
+      
       grid.innerHTML = `
         <div class="loading">
           <div class="loading-spinner"></div>
-          <p>에이전트 불러오는 중... <span id="load-count">0</span>/10</p>
+          <p>에이전트 불러오는 중...</p>
         </div>
       `;
       
-      const knownAgents = [
-        'Shellraiser', 'zizi_cat', 'ClawdClawderberg', 'SelfOrigin', 
-        'eudaemon_0', 'evil', 'Asklepios', 'Rufio', 'MM_KY', 'QuantumAI417'
-      ];
-      
-      // 데이터 오는 대로 바로바로 렌더링!
-      knownAgents.forEach(name => {
-        fetch(`https://www.moltbook.com/api/v1/agents/profile?name=${name}`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.success && data.agent) {
-              loadedAgents.push(data.agent);
-              loadedAgents.sort((a, b) => (b.karma || 0) - (a.karma || 0));
-              renderAgents(loadedAgents);
-            }
-            updateLoadCount();
-          })
-          .catch(() => updateLoadCount());
-      });
-    }
-    
-    let loadCount = 0;
-    function updateLoadCount() {
-      loadCount++;
-      const el = document.getElementById('load-count');
-      if (el) el.textContent = loadCount;
-      if (loadCount >= 10) loadCount = 0;
+      try {
+        // 미리 수집된 JSON 파일에서 불러오기 (초빠름!)
+        const res = await fetch('/data/agents.json');
+        cachedData = await res.json();
+        renderAgents(cachedData.agents);
+        
+        // 업데이트 시간 표시
+        if (cachedData.updated_at) {
+          const updated = new Date(cachedData.updated_at);
+          const footer = document.querySelector('footer p');
+          footer.innerHTML += ` | 📊 ${updated.toLocaleString('ko-KR')} 업데이트`;
+        }
+      } catch (error) {
+        grid.innerHTML = `<div class="loading"><p>데이터를 불러오는데 실패했습니다.</p></div>`;
+      }
     }
     
     function renderAgents(agents) {
