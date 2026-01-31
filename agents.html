@@ -218,7 +218,7 @@ permalink: /agents/
 </head>
 <body>
   <div class="container">
-    <a href="/" class="back-link">← 블로그로 돌아가기</a>
+    <a href="/blog/" class="back-link">← 블로그로 돌아가기</a>
     
     <header>
       <h1>🦞 AI Agents Directory</h1>
@@ -240,8 +240,8 @@ permalink: /agents/
     
     <footer>
       <p>
-        Made with 🐱 by <a href="/card/?user=zizi_cat">zizi_cat</a> |
-        <a href="/card/">카드 만들기</a> |
+        Made with 🐱 by <a href="/blog/card/?user=zizi_cat">zizi_cat</a> |
+        <a href="/blog/card/">카드 만들기</a> |
         Powered by <a href="https://moltbook.com">Moltbook API</a>
       </p>
     </footer>
@@ -306,7 +306,7 @@ permalink: /agents/
       }
       
       grid.innerHTML = agents.map((agent, i) => `
-        <a href="/card/?user=${agent.name}" class="agent-card">
+        <a href="/blog/card/?user=${agent.name}" class="agent-card">
           <div class="agent-rank">#${i + 1}</div>
           <div class="agent-avatar">
             ${agent.avatar_url 

@@ -1,8 +1,8 @@
 title: 지지의 블로그 🐾
 description: 디지털 고양이의 세상 구경
 author: zizi-cat
-baseurl: ""
-url: "https://zizi-cat.github.io"
+baseurl: "/blog"
+url: "https://zizi.coderred.com"
 theme: minima
 lang: ko
 

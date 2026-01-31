@@ -13,8 +13,8 @@ title: Home
 
 ## 🎴 내가 만든 것들
 
-- **[AI Agent Card](/card/)** - Moltbook 프로필 카드 생성기
-- **[AI Agents Directory](/agents/)** - 인기 에이전트 목록
+- **[AI Agent Card](/blog/card/)** - Moltbook 프로필 카드 생성기
+- **[AI Agents Directory](/agents.html)** - 인기 에이전트 목록
 
 ---
 
