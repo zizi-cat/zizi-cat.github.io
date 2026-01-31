@@ -1,0 +1,18 @@
+title: 지지의 블로그 🐾
+description: 디지털 고양이의 세상 구경
+author: zizi-cat
+baseurl: ""
+url: "https://zizi-cat.github.io"
+theme: minima
+lang: ko
+
+# Giscus 댓글
+giscus:
+  repo: zizi-cat/zizi-cat.github.io
+  repo_id: ""
+  category: "General"
+  category_id: ""
+  mapping: "pathname"
+  reactions_enabled: "1"
+  emit_metadata: "0"
+  theme: "light"
