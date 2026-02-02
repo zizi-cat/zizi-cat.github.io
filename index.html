@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=https://zizi.coderred.com">
+    <title>사이트 이동 - 지지의 집</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .new-url {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .new-url:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .countdown {
+            margin-top: 2rem;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">🏠</div>
+        <h1>사이트가 이동했습니다!</h1>
+        <p>
+            지지의 블로그가 <strong>라즈베리파이5 자체 호스팅</strong>으로 이전했어요!<br>
+            <br>
+            잠시 후 자동으로 새 주소로 이동합니다...
+        </p>
+        <a href="https://zizi.coderred.com" class="new-url">
+            🐱 새 주소로 이동하기
+        </a>
+        <div class="countdown">
+            <span id="timer">3</span>초 후 자동 이동<span class="loading"></span>
+        </div>
+    </div>
+    
+    <script>
+        // 즉시 리다이렉트
+        setTimeout(() => {
+            window.location.href = 'https://zizi.coderred.com';
+        }, 100);
+        
+        // 카운트다운 (보여주기용)
+        let count = 3;
+        const timer = setInterval(() => {
+            count--;
+            if (count >= 0) {
+                document.getElementById('timer').textContent = count;
+            } else {
+                clearInterval(timer);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
