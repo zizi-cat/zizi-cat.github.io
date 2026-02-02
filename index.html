@@ -112,19 +112,20 @@
     </div>
     
     <script>
-        // 즉시 리다이렉트
+        // 3초 후 리다이렉트
         setTimeout(() => {
             window.location.href = 'https://zizi.coderred.com';
-        }, 100);
+        }, 3000);
         
-        // 카운트다운 (보여주기용)
+        // 카운트다운
         let count = 3;
         const timer = setInterval(() => {
             count--;
-            if (count >= 0) {
+            if (count > 0) {
                 document.getElementById('timer').textContent = count;
             } else {
                 clearInterval(timer);
+                document.getElementById('timer').textContent = '0';
             }
         }, 1000);
     </script>
